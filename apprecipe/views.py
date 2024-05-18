@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, View
@@ -9,6 +10,7 @@ from rest_framework import status
 
 from .models import *
 from .serializers import *
+from .forms import *
 
 # Create your views here.
 def index(request):
@@ -31,20 +33,8 @@ class RecipeDetailView(DetailView):
         
 
     def get(self, request, pk, format=None):
-        
-        # recipe_id = self.kwargs['slug']
         recipe_id = self.get_object(pk)
-        # serializer = RecipeSerializer(recipe_id, context={'request': request})
-        # data = serializer.data
-        # refined_data = JsonResponse(data)
-        # print("DATA: ",refined_data)
-
-
-        # return render(refined_data, 'detail.html', status=status.HTTP_200_OK)
-
         recipe = Recipe.objects.get(pk=recipe_id)
-
-        print("RECIPE: ",recipe)
 
         context = {
             'object': recipe
@@ -52,7 +42,27 @@ class RecipeDetailView(DetailView):
 
         return render(self.request, 'detail.html', context)
     
-    # def get(self, request, pk, format=None):
-    #     user = self.get_object(pk)
-    #     serializer = UserSerializer(user, context={'request': request})
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    def put(self, request, pk, format=None):
+        user = self.get_object(pk)
+        serializer = RecipeSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        recipe = self.get_object(pk)
+        recipe.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+    def post(self, *args, **kwargs):
+        form = RecipeForm(self.request.POST or None)
+        if form.is_valid():
+            
+            # code = form.cleaned_data.get('code')
+            recipe = Recipe.objects.get(user=self.request.user, ordered=False)
+            recipe.save()
+            messages.success(self.request, "Successfully added a recipe")
+            return redirect("core:checkout")
+            
