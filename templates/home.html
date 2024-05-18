@@ -123,11 +123,20 @@
 								  {% endfor %}  
 								  
 							  </tr>
-							  
-						  </tbody>	
+						  </tbody>
 					  </table>
+					  <a href="{% url 'apprecipe:post-detail-view' %}" class="btn btn-secondary btn-md my-0 p">
+						Edit Recipe
+					  </a>
+					  <a href="{% url 'apprecipe:post-detail-view' %}" class="btn btn-warning btn-md my-0 p">
+						Delete Recipe
+					  </a>	
 
 				  </div>
+				  <a href="{% url 'apprecipe:post-detail-view' %}" class="btn btn-primary btn-md my-0 p">
+					Add Recipe
+					<i class="fas fa-shopping-cart ml-1"></i>
+				  </a>
 				</div>
 				<!-- .row end -->
 			</div>
