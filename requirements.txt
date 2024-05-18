@@ -1,0 +1,17 @@
+# Core
+django
+python-dotenv==1.0.1
+str2bool==1.1
+Pillow
+djangorestframework
+markdown
+django-filter
+factory_boy
+
+# Deployment
+gunicorn==21.2.0
+
+# Database
+psycopg2-binary
+
+
