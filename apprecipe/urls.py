@@ -7,6 +7,7 @@ urlpatterns = [
     # path('', views.index, name='index',),
     path('', views.HomeView.as_view(), name='index'),
     path('detail/<int:pk>/', views.RecipeDetailView.as_view(), name='detail-view'),
+    path('post-detail/', views.RecipeAddView.as_view(), name='post-detail-view'),
     
     
 ]

@@ -114,6 +114,7 @@
 							  
 							  <tr>
 								  {% for item in object_list %}
+								  <td><input type="checkbox" name="selected_options" value="id"></td>
 								  <td>{{ item.title}}</td>
 								  <td>{{ item.description }}</td>
 								  <td>{{ item.ingredients }}</td>
@@ -124,7 +125,8 @@
 							  </tr>
 							  
 						  </tbody>	
-					  </table>	
+					  </table>
+
 				  </div>
 				</div>
 				<!-- .row end -->

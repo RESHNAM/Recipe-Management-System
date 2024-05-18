@@ -55,14 +55,14 @@ class RecipeDetailView(DetailView):
         recipe.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
+class RecipeAddView(View):
     def post(self, *args, **kwargs):
         form = RecipeForm(self.request.POST or None)
         if form.is_valid():
             
-            # code = form.cleaned_data.get('code')
-            recipe = Recipe.objects.get(user=self.request.user, ordered=False)
+            title = form.cleaned_data.get('title')
+            recipe = Recipe.objects.get(title=title, ordered=False)
             recipe.save()
             messages.success(self.request, "Successfully added a recipe")
-            return redirect("core:checkout")
+            return redirect("apprecipe:checkoutpost-detail-view")
             
